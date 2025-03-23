@@ -1,0 +1,8 @@
+Make: Conan
+Model: Olamide
+Year: 1000
+Price: 4000
+Used: True
+Milleage: 7000
+Doors: 9
+Available: False
