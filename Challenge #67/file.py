@@ -1,5 +1,5 @@
 from func import *
-readdata = open("/home/omega01/MyDrive/Zebra Robotics/Zebra_Robtoics_Challenges/Challenge #64/data.txt","r")
+readdata = open("/home/oco/MyDrive/Zebra Robotics/Zebra_Robtoics_Challenges/Challenge #66/data.txt","r")
 listread = readdata.readlines()
 intval = 0
 endval = 7
@@ -19,22 +19,23 @@ while endval <len(listread):
 running  = True
 while running == True:
     if len(car_dict) > 0:
-        writedata = open("/home/omega01/MyDrive/Zebra Robotics/Zebra_Robtoics_Challenges/Challenge #64/data.txt","w")
+        writedata = open("/home/oco/MyDrive/Zebra Robotics/Zebra_Robtoics_Challenges/Challenge #66/data.txt","w")
         for val in car_dict:
             make,model,year,price,used,milleage,doors,available = car_dict[val].make,car_dict[val].model,car_dict[val].year,car_dict[val].price,car_dict[val].used,car_dict[val].milleage,car_dict[val].doors,car_dict[val].available
             listdata = ["Make: " + str(make), "Model: " +str(model), "Year: " + str(year), "Price: " + str(price), "Used: " +str(used), "Milleage: " + str(milleage),"Doors: " + str(doors), "Available: " +str(available)]
             writedata.write("\n".join(listdata))
         writedata.close()
-    print("(0) Close \n(1) Add Car\n(2) Return Make\n(3) Return Value\n(4) Update Val\n(5) Set Unaviable")
-    input_choice = -1
-    while input_choice < 0 or input_choice > 5:
-        while True:
-            try:
-                input_choice = int(input("Enter Choice: "))
-                break
-            except ValueError:
-                pass
-        print("Input Choice Out of Range")
+    print("(0) Close \n(1) Add Car\n(2) Return Make\n(3) Return Value\n(4) Update Val\n(5) Set Unaviable\n(6) Update mileage\n(7) Stringify\n(8) Set Used/Unused")
+    while True:
+        try:
+            input_choice = int(input("Enter Choice: "))
+            break
+        except ValueError:
+            pass
+    if input_choice < 0 :
+        input_choice = 0 
+    elif  input_choice > 5:
+        input_choice = 5
     match input_choice:
         case 0:
             running = False
@@ -74,3 +75,25 @@ while running == True:
                     pass
                 year = str(year)
             car_dict[make +"-"+model+"-"+str(year)].marksold()
+        case 6:
+            make = input("Enter Make: ").strip().lower().capitalize()
+            model = input("Enter Model: ").strip().lower().capitalize()
+            while True:
+                try:
+                    year = int(input("Enter Val Error: "))
+                    break
+                except ValueError:
+                    pass
+                year = str(year)
+            car_dict[make +"-"+model+"-"+str(year)].changemillage()
+        case 7:
+            make = input("Enter Make: ").strip().lostringifywer().capitalize()
+            model = input("Enter Model: ").strip().lower().capitalize()
+            while True:
+                try:
+                    year = int(input("Enter Val Error: "))
+                    break
+                except ValueError:
+                    pass
+                year = str(year)
+            print(car_dict[make +"-"+model+"-"+str(year)].stringify())

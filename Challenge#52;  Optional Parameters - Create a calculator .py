@@ -14,7 +14,7 @@ while True:
         print("Enter Int")
 while True:
     try:
-        tip_calc = int(input("Enter tip: "))
+        tip_calc = int(input("Enter tip (percent): "))
         tip = tip_calc/100
         break
     except ValueError:
