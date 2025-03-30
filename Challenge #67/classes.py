@@ -8,7 +8,7 @@ class Car:
         self.milleage = milleage
         self.doors = Doors
         self.available = Available
-        self.classvar = "Car" 
+        self._classvar = "Car" 
     def marksold(self):
         self.available=False
     def changemillage(self):
@@ -45,7 +45,7 @@ class Car:
 class Bike(Car):
     def __init__(self,typevar,make:str,model:str,Year:int,Price:int,Used:bool,milleage:int,Doors:int,Available:bool):
         super().__init__(make,model,Year,Price,Used,milleage, Doors,Available)
-        self.classvar = "Bike"
+        self._classvar = "Bike"
         if typevar in ["Standard","Sport"]:
             self.typevar  = typevar + " Bike"
     def __str__(self):
@@ -67,8 +67,8 @@ class Truck(Car):
             self.typevar = typevar
         self.classvar = "Truck"
         if bed in ["Long","Short"]:
-            bed += " bed"
             self.bed = bed
+        self._classvar = "Truck" 
     def update(self,typevar=None,make =None,model =None,bed= None,Price=None,Year= None,Used=None,milleage=None,Doors=None,Available = None):
         self.typevar = typevar or self.typevar
         self.make = make or self.make
@@ -80,5 +80,5 @@ class Truck(Car):
         self.milleage = milleage or self.milleage
         self.doors = Doors or self.doors
         self.available = Available or self.available
-    def __str__(self):
+    def __r__(self):
         return f"Truck: {self.typevar} - {self.bed} - {self.make} - {self.model} - {self.year}"

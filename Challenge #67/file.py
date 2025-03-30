@@ -40,7 +40,7 @@ while running == True:
         case 0:
             running = False
         case 1:
-            add_car(car_dict)
+            add(car_dict)
         case 2:
             make= input("Enter Make: ").strip().lower().capitalize()
             returnmake(make,car_dict)
