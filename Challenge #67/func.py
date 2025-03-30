@@ -2,37 +2,103 @@ from classes import *
 car_dict= {}
 # key = make-model-year
 # Car Class
-def add_car(dictval):
-    make = input("Enter Make: ").strip().lower().capitalize()
-    model = input("Enter Model: ").strip().lower().capitalize()
-    while True:
-        try:
-            year = int(input("Enter Year: "))
-            price = int(input("Enter Price: "))
-            mileage = int(input("Enter Mileage: "))
-            door = int(input("Enter Doors: "))
-            break
-        except ValueError:
-            pass
-    finding_used = True
-    while finding_used == True:
-        used_t_f = input("Is the Car used (y/n): ").lower()
-        if used_t_f == "y" or used_t_f == "n":
-            finding_used = False
-    if used_t_f == "y":
-        used = True
-    else:
-        used = False
-    finding_available = True
-    while finding_available == True:
-        ava_t_f = input("Is this car available (y/n): ").lower()
-        if ava_t_f == "y" or ava_t_f == "n":
-            finding_available = False
-    if ava_t_f == "y":
-        available = True
-    else: 
-        available = False
-    dictval[make+"-"+model+"-"+str(year)] = Car(make,model,year,price,used,mileage,door,available)
+def add(dictval,tpye="c"):
+    if tpye == "c":
+        make = input("Enter Make: ").strip().lower().capitalize()
+        model = input("Enter Model: ").strip().lower().capitalize()
+        while True:
+            try:
+                year = int(input("Enter Year: "))
+                price = int(input("Enter Price: "))
+                mileage = int(input("Enter Mileage: "))
+                door = int(input("Enter Doors: "))
+                break
+            except ValueError:
+                pass
+        finding_used = True
+        while finding_used == True:
+            used_t_f = input("Is the Car used (y/n): ").lower()
+            if used_t_f == "y" or used_t_f == "n":
+                finding_used = False
+        if used_t_f == "y":
+            used = True
+        else:
+            used = False
+        finding_available = True
+        while finding_available == True:
+            ava_t_f = input("Is this car available (y/n): ").lower()
+            if ava_t_f == "y" or ava_t_f == "n":
+                finding_available = False
+        if ava_t_f == "y":
+            available = True
+        else: 
+            available = False
+        dictval[make+"-"+model+"-"+str(year)] = Car(make,model,year,price,used,mileage,door,available)
+    elif tpye == "B":
+        make = input("Enter Make: ").strip().lower().capitalize()
+        model = input("Enter Model: ").strip().lower().capitalize()
+        while True:
+            try:
+                year = int(input("Enter Year: "))
+                price = int(input("Enter Price: "))
+                mileage = int(input("Enter Mileage: "))
+                door = int(input("Enter Doors: "))
+                break
+            except ValueError:
+                pass
+        finding_used = True
+        while finding_used == True:
+            used_t_f = input("Is the Car used (y/n): ").lower()
+            if used_t_f == "y" or used_t_f == "n":
+                finding_used = False
+        if used_t_f == "y":
+            used = True
+        else:
+            used = False
+        finding_available = True
+        while finding_available == True:
+            ava_t_f = input("Is this car available (y/n): ").lower()
+            if ava_t_f == "y" or ava_t_f == "n":
+                finding_available = False
+        if ava_t_f == "y":
+            available = True
+        else: 
+            available = False
+        typevar = ""
+        while not typevar in ["Standard","Sport"]: 
+            typevar = input("Enter Tpye(Standard/Sport): ").strip().capitalize()
+        dictval[make+"-"+model+"-"+str(year)] = Bike(typevar,make,model,year,price,used,mileage,door,available)
+    elif tpye == "T":
+        make = input("Enter Make: ").strip().lower().capitalize()
+        model = input("Enter Model: ").strip().lower().capitalize()
+        while True:
+            try:
+                year = int(input("Enter Year: "))
+                price = int(input("Enter Price: "))
+                mileage = int(input("Enter Mileage: "))
+                door = int(input("Enter Doors: "))
+                break
+            except ValueError:
+                pass
+        finding_used = True
+        while finding_used == True:
+            used_t_f = input("Is the Car used (y/n): ").lower()
+            if used_t_f == "y" or used_t_f == "n":
+                finding_used = False
+        if used_t_f == "y":
+            used = True
+        else:
+            used = False
+        finding_available = True
+        while finding_available == True:
+            ava_t_f = input("Is this car available (y/n): ").lower()
+            if ava_t_f == "y" or ava_t_f == "n":
+                finding_available = False
+        if ava_t_f == "y":
+            available = True
+        else: 
+            available = False
+        dictval[make+"-"+model+"-"+str(year)] = Car(make,model,year,price,used,mileage,door,available)
 def returnmake(make,dictval):
     listmodel = []
     for val in dictval:
@@ -40,22 +106,7 @@ def returnmake(make,dictval):
             listmodel.append(listmodel)
     print("The Number of " + str(make) +": " + str(len(listmodel)))
 def reutrnval(key,dictval):
-    make = str(dictval[key].make)
-    model = str(dictval[key].model)
-    year = str(dictval[key].year)
-    price = str(dictval[key].price)
-    used = str(dictval[key].used)
-    millage = str(dictval[key].milleage)
-    doors = str(dictval[key].doors)
-    available = str(dictval[key].available)
-    print("Make: " + make)
-    print("Model: " + model)
-    print("Year: " + year)
-    print("Price: " +price)
-    print("Used: " + used)
-    print("Milleage: "+ millage)
-    print("Doors: " + doors)
-    print("Available: " + available)
+    print(dictval[key])
 def updateval(key,dictval): #update A Store Val with the Car Class
     updating = True
     while updating == True:
@@ -127,4 +178,28 @@ def updateval(key,dictval): #update A Store Val with the Car Class
                     dictval[key].available = True
                 else:
                     dictval[key].available = True 
-
+def Writefile(dictval,filepath):
+    pass
+def Readfile_to_dict(dictval,filepath:str):
+    openfiledict = open(filepath,"r")
+    listdata = openfiledict.readlines()
+def Writedict_to_file(dictval:dict,filepath:str):
+    write_file = open(filepath,"w")
+    for key in dictval:
+        if (dictval[key]).classvar == "Car":
+            milleage = (dictval[key]).milleage
+            # Class Var,Make,Model,year,price,used,milleage,doors,Avaiable
+            list_data_writedict_to_file = list_date = ["Class: " + str((dictval[key]).classvar)," Make: " +(dictval[key]).make,"Model: " +(dictval[key]).model ,"Year: " +str((dictval[key]).year),"Used: " + str((dictval[key]).used),"Milleage: " + str((dictval[key]).milleage),"Doors: " + str((dictval[key]).doors), "Available: " + str((dictval[key]).available)]
+            for data in list_data_writedict_to_file:
+                write_file.write(data +"\n")
+            write_file.write("\n")
+        elif (dictval[key]).classvar == "Bike":
+            list_data_writedict_to_file = list_date = ["Class: " + str((dictval[key]).classvar)," Make: " +(dictval[key]).make,"Model: " +(dictval[key]).model ,"Year: " +str((dictval[key]).year),"Used: " + str((dictval[key]).used),"Milleage: " + str((dictval[key]).milleage),"Doors: " + str((dictval[key]).doors), "Available: " + str((dictval[key]).available), "Tpye: " + str((dictval[key]).typevar)]
+            for data in list_data_writedict_to_file:
+                write_file.write(data +"\n")
+            write_file.write("\n")
+        elif (dictval[key]).classvar == "Truck":
+            list_data_writedict_to_file = list_date = ["Class: " + str((dictval[key]).classvar)," Make: " +(dictval[key]).make,"Model: " +(dictval[key]).model ,"Year: " +str((dictval[key]).year),"Used: " + str((dictval[key]).used),"Milleage: " + str((dictval[key]).milleage),"Doors: " + str((dictval[key]).doors), "Available: " + str((dictval[key]).available), "Tpye: " + str((dictval[key]).typevar), "Bed: " + str((dictval[key]).bed)]
+            for data in list_data_writedict_to_file:
+                write_file.write(data +"\n")
+            write_file.write("\n")
