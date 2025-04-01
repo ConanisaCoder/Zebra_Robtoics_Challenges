@@ -1,99 +1,70 @@
 from func import *
-readdata = open("/home/oco/MyDrive/Zebra Robotics/Zebra_Robtoics_Challenges/Challenge #66/data.txt","r")
-listread = readdata.readlines()
-intval = 0
-endval = 7
-while endval <len(listread):
-    datalist = listread[intval:endval]
-    make = str(datalist[0][datalist[0].index(":")+1: ].strip())
-    model = str(datalist[1][datalist[1].index(":")+1: ].strip())
-    year = int(datalist[2][datalist[2].index(":")+1: ].strip())
-    price = int(datalist[3][datalist[3].index(":")+1: ].strip())
-    used = bool(datalist[4][datalist[4].index(":")+1: ].strip())
-    milleage = int(datalist[5][datalist[5].index(":")+1: ].strip())
-    doors = int(datalist[6][datalist[6].index(":")+1: ].strip())
-    available = bool(datalist[-1][datalist[-1].index(":")+1: ].strip())
-    car_dict[make+"-"+model+"-"+str(year)] = Car(make,model,year,price,used,milleage,doors,available)
-    intval += 8
-    endval += 8
-running  = True
-while running == True:
-    if len(car_dict) > 0:
-        writedata = open("/home/oco/MyDrive/Zebra Robotics/Zebra_Robtoics_Challenges/Challenge #66/data.txt","w")
-        for val in car_dict:
-            make,model,year,price,used,milleage,doors,available = car_dict[val].make,car_dict[val].model,car_dict[val].year,car_dict[val].price,car_dict[val].used,car_dict[val].milleage,car_dict[val].doors,car_dict[val].available
-            listdata = ["Make: " + str(make), "Model: " +str(model), "Year: " + str(year), "Price: " + str(price), "Used: " +str(used), "Milleage: " + str(milleage),"Doors: " + str(doors), "Available: " +str(available)]
-            writedata.write("\n".join(listdata))
-        writedata.close()
-    print("(0) Close \n(1) Add Car\n(2) Return Make\n(3) Return Value\n(4) Update Val\n(5) Set Unaviable\n(6) Update mileage\n(7) Stringify\n(8) Set Used/Unused")
+from classes import*
+Readfile_to_dict(dictval=car_dict,filepath="/home/oco/MyDrive/Zebra Robotics/Zebra_Robtoics_Challenges/Challenge #67/data.txt")
+while True:
+    print("Enter Options\n(0) Exit\n(1) Update\n(2) Add\n(3) Return Make\n(4) Return Val")
     while True:
         try:
-            input_choice = int(input("Enter Choice: "))
+            options = int(input("Enter Options: "))
             break
         except ValueError:
             pass
-    if input_choice < 0 :
-        input_choice = 0 
-    elif  input_choice > 5:
-        input_choice = 5
-    match input_choice:
+    match options:
         case 0:
-            running = False
+            Writedict_to_file(car_dict,"/home/oco/MyDrive/Zebra Robotics/Zebra_Robtoics_Challenges/Challenge #67/data.txt")
+            exit()
         case 1:
-            add(car_dict)
+            while True:
+                model = input('Enter Model: ').strip().capitalize()
+                make = input("Enter Make: ").strip().capitalize()
+                while True:
+                    try:
+                        year = int(input("Enter Year: "))
+                        break
+                    except ValueError:
+                        print("Enter Int")
+                if not (model+"-"+make+"-"+str(year)) in car_dict:
+                    user_input = input("Enter Blank to Try Again: ")
+                if (model+"-"+make+"-"+str(year)) in car_dict:
+                    update(model+"-"+make+"-"+str(year),car_dict) 
+                    break
+                if not user_input == None:
+                    break
+            Writedict_to_file(car_dict,"/home/oco/MyDrive/Zebra Robotics/Zebra_Robtoics_Challenges/Challenge #67/data.txt")
         case 2:
-            make= input("Enter Make: ").strip().lower().capitalize()
-            returnmake(make,car_dict)
+            while True:
+                choice = input("Enter Type(C,Car/T,Truck/B,Bike/Blank to close): ").strip().capitalize()
+                if choice in ["C","Car","T","Truck","Bike","B",None]:
+                    break
+                else:
+                    print("Enter One the Options")
+            if choice == None:
+                pass
+            elif choice in ["C","Car"]:
+                add(car_dict,tpye="C")
+            elif choice in ["B","Bike"]:
+                add(car_dict,tpye="B")
+            elif choice in ["T","Truck"]:
+                add(car_dict,tpye="T")
+            Writedict_to_file(car_dict,"/home/oco/MyDrive/Zebra Robotics/Zebra_Robtoics_Challenges/Challenge #67/data.txt")
         case 3:
-            make = input("Enter make: ").strip().lower().capitalize()
-            model = input("Enter Model: ").strip().lower().capitalize()
+            make = input("Enter Make: ").strip().capitalize()
+            print(returnmake(make,car_dict))
+            Writedict_to_file(car_dict,"/home/oco/MyDrive/Zebra Robotics/Zebra_Robtoics_Challenges/Challenge #67/data.txt")
+        case 4:
             while True:
-                try:
-                    year = int(input("Enter Year: "))
-                    break
-                except ValueError:
-                    pass
-            reutrnval(make+"-"+model+"-"+str(year),car_dict)
-        case 4: 
-            make = input("Enter make: ").strip().lower().capitalize()
-            model = input("Enter Model: ").strip().lower().capitalize()
-            while True:
-                try:
-                    year = int(input("Enter Year: "))
-                    break
-                except ValueError:
-                    pass
-            updateval(make+"-"+model+"-"+str(year),car_dict)
-        case 5: #FIX
-            make = input("Enter Make: ").strip().lower().capitalize()
-            model = input("Enter Model: ").strip().lower().capitalize()
-            while True:
-                try:
-                    year = int(input("Enter Val Error: "))
-                    break
-                except ValueError:
-                    pass
-                year = str(year)
-            car_dict[make +"-"+model+"-"+str(year)].marksold()
-        case 6:
-            make = input("Enter Make: ").strip().lower().capitalize()
-            model = input("Enter Model: ").strip().lower().capitalize()
-            while True:
-                try:
-                    year = int(input("Enter Val Error: "))
-                    break
-                except ValueError:
-                    pass
-                year = str(year)
-            car_dict[make +"-"+model+"-"+str(year)].changemillage()
-        case 7:
-            make = input("Enter Make: ").strip().lostringifywer().capitalize()
-            model = input("Enter Model: ").strip().lower().capitalize()
-            while True:
-                try:
-                    year = int(input("Enter Val Error: "))
-                    break
-                except ValueError:
-                    pass
-                year = str(year)
-            print(car_dict[make +"-"+model+"-"+str(year)].stringify())
+                make = input("Enter make: ").strip().capitalize()
+                model = input("Enter Model: ").strip().capitalize()
+                while True:
+                    try:
+                        year = int(input("Enter Year: "))
+                        break
+                    except ValueError:
+                        print("Enter Int")
+                if make+"-"+model+"-"+str(year) in car_dict:
+                    print(car_dict[make+"-"+model+"-"+str(year)])
+                else:
+                    print("Not In Dict")
+                Writedict_to_file(car_dict,"/home/oco/MyDrive/Zebra Robotics/Zebra_Robtoics_Challenges/Challenge #67/data.txt")
+        case _:
+            pass

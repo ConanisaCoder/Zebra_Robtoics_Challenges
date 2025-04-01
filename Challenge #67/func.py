@@ -2,7 +2,7 @@ from classes import *
 car_dict= {}
 # key = make-model-year
 # Car Class
-def update(dictkey):
+def update(dictkey,dictvar):
     match dictkey._classvar:
         case "Car":
             print("Blank To Not Change")
@@ -34,7 +34,7 @@ def update(dictkey):
                     used = bool(used)
                 elif used == None:
                     break
-            dictkey.update(make=make,model=model,Price=price,Year=year,Used=used,milleage=milleage,Doors=doors,Available = available)
+            (dictvar[dictkey]).update(make=make,model=model,Price=price,Year=year,Used=used,milleage=milleage,Doors=doors,Available = available)
         case "Truck":
             print("Blank To Not Change")
             while True:
@@ -45,6 +45,8 @@ def update(dictkey):
                     yearinstance,doorsinstance,priceinstance,milleageinstance = isinstance(year,(int,type(None))), isinstance(doors,(int,type(None))),isinstance(price,(int,type(None))), isinstance(milleage,(int,type(None)))
                     if (yearinstance,doorsinstance,priceinstance,milleageinstance).count(True) == 4:
                         break
+                    else:
+                        print("Enter Int/None.")
             make = input("Enter Make: ").strip().capitalize() or None
             model = input("Enter Model: ").strip().capitalize() or None
             while True:
@@ -109,8 +111,8 @@ def update(dictkey):
                 if typevar in ["Standard","Sport"]:
                     break
             dictkey.update(typevar=typevar,make =make,model =model,Price=price,Year= year,Used=used,milleage=milleage,Doors=doors,Available = available)
-def add(dictval,tpye="c"):
-    if tpye == "c":
+def add(dictval,tpye="C"):
+    if tpye == "C":
         make = input("Enter Make: ").strip().lower().capitalize()
         model = input("Enter Model: ").strip().lower().capitalize()
         while True:
@@ -128,7 +130,7 @@ def add(dictval,tpye="c"):
             if used_t_f == "y" or used_t_f == "n":
                 finding_used = False
         if used_t_f == "y":
-            used = True(make=make,model=model,Price=price,Year=year,Used=used,milleage=milleage,Doors=doors,Available = available)
+            used = True
         else:
             used = False
         finding_available = True
@@ -141,7 +143,7 @@ def add(dictval,tpye="c"):
         else: 
             available = False
         dictval[make+"-"+model+"-"+str(year)] = Car(make,model,year,price,used,mileage,door,available)
-    elif tpye == "B": # FIX
+    elif tpye == "B": 
         make = input("Enter Make: ").strip().lower().capitalize()
         model = input("Enter Model: ").strip().lower().capitalize()
         while True:
@@ -175,7 +177,7 @@ def add(dictval,tpye="c"):
         while not typevar in ["Standard","Sport"]: 
             typevar = input("Enter Tpye(Standard/Sport): ").strip().capitalize()
         dictval[make+"-"+model+"-"+str(year)] = Bike(typevar,make,model,year,price,used,mileage,door,available)
-    elif tpye == "T": #FIX
+    elif tpye == "T":
         make = input("Enter Make: ").strip().lower().capitalize()
         model = input("Enter Model: ").strip().lower().capitalize()
         while True:
@@ -211,31 +213,44 @@ def returnmake(make,dictval):
     for val in dictval:
         if make in val:
             listmodel.append(listmodel)
-    print("The Number of " + str(make) +": " + str(len(listmodel)))
+    return ("The Number of " + str(make) +": " + str(len(listmodel)))
 def reutrnval(key,dictval):
     print(dictval[key]) 
-def Writefile(dictval,filepath):
-    pass
 def Readfile_to_dict(dictval,filepath:str):
     openfiledict = open(filepath,"r")
     listdata = openfiledict.readlines()
+    i = 0 
+    while i < len(listdata):
+        if (listdata[i])[listdata[i].index(":")+ 1:] == "Car":
+            listslice = listdata[i:i+7]
+            make,model,year,used,milleage,doors,Ava = (listslice[i+1])[listslice[i+1].index(":")+1:],(listslice[i+2])[listslice[i+2].index(":")+1:], (listslice[i+3])[listslice[i+3].index(":")+1:],(listslice[i+4])[listslice[i+4].index(":")+1:],(listslice[i+5])[listslice[i+5].index(":")+1:],(listslice[i+6])[listslice[i+6].index(":")+1:],(listslice[i+7])[listslice[i+7].index(":")+1:]
+            car_dict[make+"-"+model+"-"+year] = Car(make=make,model=model,year=year,Used=used,milleage=milleage,Doors=doors,Available=Ava)
+            i += 8
+        elif listdata[i] == "Bike":
+            listslice = listdata[i:i+8]
+            make,model,year,used,milleage,doors,Ava,typevar = (listslice[i+1])[listslice[i+1].index(":")+1:],(listslice[i+2])[listslice[i+2].index(":")+1:], (listslice[i+3])[listslice[i+3].index(":")+1:],(listslice[i+4])[listslice[i+4].index(":")+1:],(listslice[i+5])[listslice[i+5].index(":")+1:],(listslice[i+6])[listslice[i+6].index(":")+1:],(listslice[i+7])[listslice[i+7].index(":")+1:],(listslice[i+8])[listslice[i+8].index(":")+1:]
+            car_dict[make+"-"+model+"-"+year] = Bike(make=make,typevar=typevar,model=model,year=year,Used=used,milleage=milleage,Doors=doors,Available=Ava)
+            i += 9
+        elif listdata[i] == "Truck":
+            listslice = listdata[i:i+9]
+            make,model,year,used,milleage,doors,Ava,typevar,bed = (listslice[i+1])[listslice[i+1].index(":")+1:],(listslice[i+2])[listslice[i+2].index(":")+1:], (listslice[i+3])[listslice[i+3].index(":")+1:],(listslice[i+4])[listslice[i+4].index(":")+1:],(listslice[i+5])[listslice[i+5].index(":")+1:],(listslice[i+6])[listslice[i+6].index(":")+1:],(listslice[i+7])[listslice[i+7].index(":")+1:],(listslice[i+8])[listslice[i+8].index(":")+1:],(listslice[i+9])[listslice[i+9].index(":")+1:]
+            car_dict[make+"-"+model+"-"+year] = Truck(make=make,bed=bed,typevar=typevar,model=model,year=year,Used=used,milleage=milleage,Doors=doors,Available=Ava)
+            i += 10
+    openfiledict.close()
 def Writedict_to_file(dictval:dict,filepath:str):
     write_file = open(filepath,"w")
     for key in dictval:
-        if (dictval[key]).classvar == "Car":
+        if (dictval[key])._classvar == "Car":
             milleage = (dictval[key]).milleage
             # Class Var,Make,Model,year,price,used,milleage,doors,Avaiable
-            list_data_writedict_to_file = list_date = ["Class: " + str((dictval[key]).classvar)," Make: " +(dictval[key]).make,"Model: " +(dictval[key]).model ,"Year: " +str((dictval[key]).year),"Used: " + str((dictval[key]).used),"Milleage: " + str((dictval[key]).milleage),"Doors: " + str((dictval[key]).doors), "Available: " + str((dictval[key]).available)]
+            list_data_writedict_to_file = list_date = ["Class: " + str((dictval[key])._classvar)," Make: " +(dictval[key]).make,"Model: " +(dictval[key]).model ,"Year: " +str((dictval[key]).year),"Used: " + str((dictval[key]).used),"Milleage: " + str((dictval[key]).milleage),"Doors: " + str((dictval[key]).doors), "Available: " + str((dictval[key]).available)]
             for data in list_data_writedict_to_file:
                 write_file.write(data +"\n")
-            write_file.write("\n")
-        elif (dictval[key]).classvar == "Bike":
-            list_data_writedict_to_file = list_date = ["Class: " + str((dictval[key]).classvar)," Make: " +(dictval[key]).make,"Model: " +(dictval[key]).model ,"Year: " +str((dictval[key]).year),"Used: " + str((dictval[key]).used),"Milleage: " + str((dictval[key]).milleage),"Doors: " + str((dictval[key]).doors), "Available: " + str((dictval[key]).available), "Tpye: " + str((dictval[key]).typevar)]
+        elif (dictval[key])._classvar == "Bike":
+            list_data_writedict_to_file = list_date = ["Class: " + str((dictval[key])._classvar)," Make: " +(dictval[key]).make,"Model: " +(dictval[key]).model ,"Year: " +str((dictval[key]).year),"Used: " + str((dictval[key]).used),"Milleage: " + str((dictval[key]).milleage),"Doors: " + str((dictval[key]).doors), "Available: " + str((dictval[key]).available), "Tpye: " + str((dictval[key]).typevar)]
             for data in list_data_writedict_to_file:
                 write_file.write(data +"\n")
-            write_file.write("\n")
-        elif (dictval[key]).classvar == "Truck":
-            list_data_writedict_to_file = list_date = ["Class: " + str((dictval[key]).classvar)," Make: " +(dictval[key]).make,"Model: " +(dictval[key]).model ,"Year: " +str((dictval[key]).year),"Used: " + str((dictval[key]).used),"Milleage: " + str((dictval[key]).milleage),"Doors: " + str((dictval[key]).doors), "Available: " + str((dictval[key]).available), "Tpye: " + str((dictval[key]).typevar), "Bed: " + str((dictval[key]).bed)]
+        elif (dictval[key])._classvar == "Truck":
+            list_data_writedict_to_file = list_date = ["Class: " + str((dictval[key])._classvar)," Make: " +(dictval[key]).make,"Model: " +(dictval[key]).model ,"Year: " +str((dictval[key]).year),"Used: " + str((dictval[key]).used),"Milleage: " + str((dictval[key]).milleage),"Doors: " + str((dictval[key]).doors), "Available: " + str((dictval[key]).available), "Tpye: " + str((dictval[key]).typevar), "Bed: " + str((dictval[key]).bed)]
             for data in list_data_writedict_to_file:
                 write_file.write(data +"\n")
-            write_file.write("\n")

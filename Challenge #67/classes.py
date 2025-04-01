@@ -80,5 +80,5 @@ class Truck(Car):
         self.milleage = milleage or self.milleage
         self.doors = Doors or self.doors
         self.available = Available or self.available
-    def __r__(self):
+    def __str__(self):
         return f"Truck: {self.typevar} - {self.bed} - {self.make} - {self.model} - {self.year}"
